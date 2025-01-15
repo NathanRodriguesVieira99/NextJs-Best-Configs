@@ -9,10 +9,10 @@ describe("HomeScreen Component", () => {
     const textHello = screen.getByText("Hello berimbau");
     expect(textHello).toBeInTheDocument();
   });
-  it("should render the initial message 'vasco da gama' ", async () => {
+  it("should render the initial message 'vasco da gama' ", () => {
     render(<Home />);
 
-    const InitialMessageText = await screen.findByText("vasco da gama");
+    const InitialMessageText = screen.getByText("vasco da gama");
     expect(InitialMessageText).toBeInTheDocument();
   });
   it("should change the message on button click", () => {
