@@ -1,41 +1,45 @@
-import globals from "globals";
+import react from 'eslint-plugin-react';
+import typescriptEslint from '@typescript-eslint/eslint-plugin';
+import jsxA11y from 'eslint-plugin-jsx-a11y';
+import jest from 'eslint-plugin-jest';
+import globals from 'globals';
+import parser from '@typescript-eslint/parser'; // Adicionando o parser para TypeScript
 
-/** @type {import('eslint').Linter.Config[]} */
+/** @type {import('eslint').Linter.Config} */
 export default [
   {
-    files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"],
-    languageOptions: { globals: globals.browser },
-    rules: {
-      // Regras gerais
-      "no-console": ["warn", { "allow": ["warn", "error"] }], // Evita uso de console.log
-      "react/react-in-jsx-scope": "off", // Não é necessário importar o React no Next.js (a partir do Next 10)
-      "react/jsx-uses-react": "off", // Não é necessário usar explicitamente `React` no JSX
-      "react/prop-types": "off", // Next.js usa TypeScript para verificação de tipos, então desativa a verificação de prop-types
-      "@typescript-eslint/explicit-module-boundary-types": "off", // Não exige tipos explícitos para funções em módulos
-      "@typescript-eslint/no-explicit-any": "warn", // Alerta ao usar `any`
-      "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }], // Evita variáveis não utilizadas com a exceção de argumentos começando com "_"
-      "@typescript-eslint/ban-ts-comment": "warn", // Alerta quando usa ts-ignore/ts-expect-error
-      "jsx-a11y/anchor-is-valid": "warn", // Garante que os links <a> sejam válidos
-      "jsx-a11y/alt-text": "warn", // Garante que todas as imagens tenham texto alternativo
-      // Regras do Jest
-      "jest/valid-expect": "warn", // Garante que os testes usem o `expect` de forma válida
-      "jest/expect-expect": "warn", // Garante que os testes esperem por algo
+    files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'],
+    languageOptions: {
+      parser, // Definindo o parser para TypeScript
+      globals: globals.browser, // Permite variáveis globais específicas do ambiente de navegador
     },
-    plugins: [
-      "react",
-      "@typescript-eslint",
-      "jsx-a11y",
-      "next",
-      "jest", // Plugin Jest
-    ],
-    extends: [
-      "eslint:recommended",
-      "plugin:@typescript-eslint/recommended",
-      "plugin:react/recommended",
-      "plugin:jsx-a11y/recommended",
-      "plugin:next/recommended",
-      "plugin:jest/recommended", // Adiciona as configurações recomendadas do Jest
-      "prettier"
-    ],
+    plugins: {
+      react, // Plugin para o React
+      '@typescript-eslint': typescriptEslint, // Plugin para TypeScript
+      'jsx-a11y': jsxA11y, // Plugin para acessibilidade em JSX
+      jest, // Plugin para o Jest (para testes)
+    },
+    rules: {
+      'no-console': ['warn', { allow: ['warn', 'error'] }],
+      'react/react-in-jsx-scope': 'off',
+      'react/jsx-uses-react': 'off',
+      'react/prop-types': 'off',
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+      '@typescript-eslint/ban-ts-comment': 'warn',
+      'jsx-a11y/anchor-is-valid': 'warn',
+      'jsx-a11y/alt-text': 'warn',
+      'jest/valid-expect': 'warn',
+      'jest/expect-expect': 'warn',
+    },
+  },
+  {
+    files: ['**/*.ts', '**/*.tsx'],
+    languageOptions: {
+      parserOptions: {
+        project: './tsconfig.json',
+      },
+    },
   },
 ];
