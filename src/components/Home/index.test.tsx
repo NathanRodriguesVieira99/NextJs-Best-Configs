@@ -3,18 +3,20 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import Home from "./index";
 
 describe("HomeScreen Component", () => {
-  it("should render Home with hello message", () => {
+  it("should render Home with 'Hello berimbau' message", () => {
     render(<Home />);
 
     const textHello = screen.getByText("Hello berimbau");
     expect(textHello).toBeInTheDocument();
   });
-
-  it("should change message on button click", () => {
+  it("should render the initial message 'vasco da gama' ", async () => {
     render(<Home />);
 
-    const InitialMessageText = screen.getByText("vasco da gama");
+    const InitialMessageText = await screen.findByText("vasco da gama");
     expect(InitialMessageText).toBeInTheDocument();
+  });
+  it("should change the message on button click", () => {
+    render(<Home />);
 
     const button = screen.getByText(/change message/i);
     fireEvent.click(button);
